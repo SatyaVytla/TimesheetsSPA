@@ -6,9 +6,9 @@ defmodule Timesheet.LogsheetsTest do
   describe "logsheets" do
     alias Timesheet.Logsheets.Logsheet
 
-    @valid_attrs %{date_logged: ~D[2010-04-17], hours: 42, jobcode: "some jobcode", task_seqno: 42, user_id: 42}
-    @update_attrs %{date_logged: ~D[2011-05-18], hours: 43, jobcode: "some updated jobcode", task_seqno: 43, user_id: 43}
-    @invalid_attrs %{date_logged: nil, hours: nil, jobcode: nil, task_seqno: nil, user_id: nil}
+    @valid_attrs %{approve: true, date_logged: ~D[2010-04-17], hours: 42, task_seqno: 42}
+    @update_attrs %{approve: false, date_logged: ~D[2011-05-18], hours: 43, task_seqno: 43}
+    @invalid_attrs %{approve: nil, date_logged: nil, hours: nil, task_seqno: nil}
 
     def logsheet_fixture(attrs \\ %{}) do
       {:ok, logsheet} =
@@ -31,11 +31,10 @@ defmodule Timesheet.LogsheetsTest do
 
     test "create_logsheet/1 with valid data creates a logsheet" do
       assert {:ok, %Logsheet{} = logsheet} = Logsheets.create_logsheet(@valid_attrs)
+      assert logsheet.approve == true
       assert logsheet.date_logged == ~D[2010-04-17]
       assert logsheet.hours == 42
-      assert logsheet.jobcode == "some jobcode"
       assert logsheet.task_seqno == 42
-      assert logsheet.user_id == 42
     end
 
     test "create_logsheet/1 with invalid data returns error changeset" do
@@ -45,11 +44,10 @@ defmodule Timesheet.LogsheetsTest do
     test "update_logsheet/2 with valid data updates the logsheet" do
       logsheet = logsheet_fixture()
       assert {:ok, %Logsheet{} = logsheet} = Logsheets.update_logsheet(logsheet, @update_attrs)
+      assert logsheet.approve == false
       assert logsheet.date_logged == ~D[2011-05-18]
       assert logsheet.hours == 43
-      assert logsheet.jobcode == "some updated jobcode"
       assert logsheet.task_seqno == 43
-      assert logsheet.user_id == 43
     end
 
     test "update_logsheet/2 with invalid data returns error changeset" do

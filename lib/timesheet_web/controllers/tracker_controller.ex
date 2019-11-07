@@ -4,59 +4,40 @@ defmodule TimesheetWeb.TrackerController do
   alias Timesheet.Trackers
   alias Timesheet.Trackers.Tracker
 
+  action_fallback TimesheetWeb.FallbackController
+
   def index(conn, _params) do
     trackers = Trackers.list_trackers()
-    render(conn, "index.html", trackers: trackers)
-  end
-
-  def new(conn, _params) do
-    changeset = Trackers.change_tracker(%Tracker{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "index.json", trackers: trackers)
   end
 
   def create(conn, %{"tracker" => tracker_params}) do
-    case Trackers.create_tracker(tracker_params) do
-      {:ok, tracker} ->
-        conn
-        |> put_flash(:info, "Tracker created successfully.")
-        |> redirect(to: Routes.tracker_path(conn, :show, tracker))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+    with {:ok, %Tracker{} = tracker} <- Trackers.create_tracker(tracker_params) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.tracker_path(conn, :show, tracker))
+      |> render("show.json", tracker: tracker)
     end
   end
 
   def show(conn, %{"id" => id}) do
     tracker = Trackers.get_tracker!(id)
-    render(conn, "show.html", tracker: tracker)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    tracker = Trackers.get_tracker!(id)
-    changeset = Trackers.change_tracker(tracker)
-    render(conn, "edit.html", tracker: tracker, changeset: changeset)
+    render(conn, "show.json", tracker: tracker)
   end
 
   def update(conn, %{"id" => id, "tracker" => tracker_params}) do
     tracker = Trackers.get_tracker!(id)
 
-    case Trackers.update_tracker(tracker, tracker_params) do
-      {:ok, tracker} ->
-        conn
-        |> put_flash(:info, "Tracker updated successfully.")
-        |> redirect(to: Routes.tracker_path(conn, :show, tracker))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", tracker: tracker, changeset: changeset)
+    with {:ok, %Tracker{} = tracker} <- Trackers.update_tracker(tracker, tracker_params) do
+      render(conn, "show.json", tracker: tracker)
     end
   end
 
   def delete(conn, %{"id" => id}) do
     tracker = Trackers.get_tracker!(id)
-    {:ok, _tracker} = Trackers.delete_tracker(tracker)
 
-    conn
-    |> put_flash(:info, "Tracker deleted successfully.")
-    |> redirect(to: Routes.tracker_path(conn, :index))
+    with {:ok, %Tracker{}} <- Trackers.delete_tracker(tracker) do
+      send_resp(conn, :no_content, "")
+    end
   end
 end

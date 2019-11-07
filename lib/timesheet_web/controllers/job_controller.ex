@@ -4,60 +4,41 @@ defmodule TimesheetWeb.JobController do
   alias Timesheet.Jobs
   alias Timesheet.Jobs.Job
 
+  action_fallback TimesheetWeb.FallbackController
+
   def index(conn, _params) do
     jobs = Jobs.list_jobs()
-    render(conn, "index.html", jobs: jobs)
+    IO.puts("list jobs")
+    render(conn, "index.json", jobs: jobs)
   end
-
-  def new(conn, _params) do
-    changeset = Jobs.change_job(%Job{})
-    render(conn, "new.html", changeset: changeset)
-  end
-
 
   def create(conn, %{"job" => job_params}) do
-    case Jobs.create_job(job_params) do
-      {:ok, job} ->
-        conn
-        |> put_flash(:info, "Job created successfully.")
-        |> redirect(to: Routes.job_path(conn, :show, job))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+    with {:ok, %Job{} = job} <- Jobs.create_job(job_params) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.job_path(conn, :show, job))
+      |> render("show.json", job: job)
     end
   end
 
   def show(conn, %{"id" => id}) do
     job = Jobs.get_job!(id)
-    render(conn, "show.html", job: job)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    job = Jobs.get_job!(id)
-    changeset = Jobs.change_job(job)
-    render(conn, "edit.html", job: job, changeset: changeset)
+    render(conn, "show.json", job: job)
   end
 
   def update(conn, %{"id" => id, "job" => job_params}) do
     job = Jobs.get_job!(id)
 
-    case Jobs.update_job(job, job_params) do
-      {:ok, job} ->
-        conn
-        |> put_flash(:info, "Job updated successfully.")
-        |> redirect(to: Routes.job_path(conn, :show, job))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", job: job, changeset: changeset)
+    with {:ok, %Job{} = job} <- Jobs.update_job(job, job_params) do
+      render(conn, "show.json", job: job)
     end
   end
 
   def delete(conn, %{"id" => id}) do
     job = Jobs.get_job!(id)
-    {:ok, _job} = Jobs.delete_job(job)
 
-    conn
-    |> put_flash(:info, "Job deleted successfully.")
-    |> redirect(to: Routes.job_path(conn, :index))
+    with {:ok, %Job{}} <- Jobs.delete_job(job) do
+      send_resp(conn, :no_content, "")
+    end
   end
 end

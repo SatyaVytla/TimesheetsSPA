@@ -6,9 +6,9 @@ defmodule Timesheet.UsersTest do
   describe "users" do
     alias Timesheet.Users.User
 
-    @valid_attrs %{ismanager: true, password: "some password", user_id: 42, user_name: "some user_name"}
-    @update_attrs %{ismanager: false, password: "some updated password", user_id: 43, user_name: "some updated user_name"}
-    @invalid_attrs %{ismanager: nil, password: nil, user_id: nil, user_name: nil}
+    @valid_attrs %{ismanager: true, manager_id: 42, password: "some password", password_hash: "some password_hash", user_name: "some user_name"}
+    @update_attrs %{ismanager: false, manager_id: 43, password: "some updated password", password_hash: "some updated password_hash", user_name: "some updated user_name"}
+    @invalid_attrs %{ismanager: nil, manager_id: nil, password: nil, password_hash: nil, user_name: nil}
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -32,8 +32,9 @@ defmodule Timesheet.UsersTest do
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
       assert user.ismanager == true
+      assert user.manager_id == 42
       assert user.password == "some password"
-      assert user.user_id == 42
+      assert user.password_hash == "some password_hash"
       assert user.user_name == "some user_name"
     end
 
@@ -45,8 +46,9 @@ defmodule Timesheet.UsersTest do
       user = user_fixture()
       assert {:ok, %User{} = user} = Users.update_user(user, @update_attrs)
       assert user.ismanager == false
+      assert user.manager_id == 43
       assert user.password == "some updated password"
-      assert user.user_id == 43
+      assert user.password_hash == "some updated password_hash"
       assert user.user_name == "some updated user_name"
     end
 

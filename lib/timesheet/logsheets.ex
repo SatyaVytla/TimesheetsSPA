@@ -50,7 +50,6 @@ defmodule Timesheet.Logsheets do
 
   """
   def create_logsheet(attrs \\ %{}) do
-    IO.puts("--------------------------------------------")
     %Logsheet{}
     |> Logsheet.changeset(attrs)
     |> Repo.insert()
@@ -101,26 +100,5 @@ defmodule Timesheet.Logsheets do
   """
   def change_logsheet(%Logsheet{} = logsheet) do
     Logsheet.changeset(logsheet, %{})
-  end
-
-  def get_userlogs(id,date) do
-    query = from(l in Logsheet, where: l.user_id == ^id and l.date_logged == ^date, select: {l.date_logged, l.hours, l.job_code})
-    logs = Repo.all(query)
-  end
-
-  def get_workerlogs(id) do
-    query = from(l in Logsheet, where: l.user_id == ^id, group_by: [l.date_logged,l.approve], select: {l.date_logged, l.approve})
-    logs = Repo.all(query)
-  end
-
-  def updateApproveStatus(id,date) do
-
-    from(l in Logsheet, where: l.user_id == ^id and l.date_logged == ^date, update: [set: [approve: true]])
-    |> Repo.update_all([])
-  end
-
-  def get_status(id,date) do
-    query = from(l in Logsheet, where: l.user_id == ^id and l.date_logged == ^date, limit: 1, select: {l.approve})
-    logs = Repo.all(query)
   end
 end

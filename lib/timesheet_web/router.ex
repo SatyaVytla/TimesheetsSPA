@@ -8,27 +8,36 @@ defmodule TimesheetWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_session
-    plug TimesheetWeb.Plugs.FetchCurrentUser
   end
 
-  pipeline :api do
+  pipeline :ajax do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
   end
 
-  scope "/", TimesheetWeb do
-    pipe_through :browser
+  scope "/ajax", TimesheetWeb do
+    pipe_through :ajax
 
     get "/", PageController, :index
     post "/user_pages", PageController, :user_pages
     get "/update_task", LogsheetController, :update_task
 
     resources "/users", UserController
-    resources "/jobs", JobController
+    resources "/jobs", JobController, except: [:new, :edit]
     resources "/trackers", TrackerController
     resources "/logsheets", LogsheetController
 
-    resources "/sessions", SessionController,
-              only: [:new, :create, :delete], singleton: true
+#    resources "/sessions", SessionController,
+#              only: [:new, :create, :delete], singleton: true
+  end
+
+   scope "/", TimesheetWeb do
+     pipe_through :browser
+
+    get "/", PageController, :index
+    get "/users", PageController, :index
 
   end
 

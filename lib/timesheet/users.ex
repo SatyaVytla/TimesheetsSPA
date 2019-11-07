@@ -101,28 +101,4 @@ defmodule Timesheet.Users do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
-
-  def get_user_by_name(user_name) do
-    Repo.get_by(User, user_name: user_name)
-  end
-
-  def authenticate(user_name, password_hash) do
-    user = Repo.get_by(User, user_name: user_name)
-    IO.puts("username")
-    IO.inspect(user)
-
-    case Argon2.check_pass(user, password_hash) do
-      {:ok, user} -> user
-      _ -> nil
-    end
-  end
-
-  def get_user(id), do: Repo.get(User, id)
-
-  def get_usernames(manager_id) do
-    IO.puts("users")
-    query = from(u in User, where: not is_nil(u.manager_id) and u.manager_id == ^manager_id, select: {u.user_name, u.user_name})
-    jobs = Repo.all(query)
-
-  end
 end

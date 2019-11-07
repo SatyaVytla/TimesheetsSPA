@@ -6,8 +6,8 @@ defmodule Timesheet.JobsTest do
   describe "jobs" do
     alias Timesheet.Jobs.Job
 
-    @valid_attrs %{job_code: "some job_code", job_name: "some job_name", supervisor: 42}
-    @update_attrs %{job_code: "some updated job_code", job_name: "some updated job_name", supervisor: 43}
+    @valid_attrs %{job_code: "some job_code", job_name: "some job_name", supervisor: "some supervisor"}
+    @update_attrs %{job_code: "some updated job_code", job_name: "some updated job_name", supervisor: "some updated supervisor"}
     @invalid_attrs %{job_code: nil, job_name: nil, supervisor: nil}
 
     def job_fixture(attrs \\ %{}) do
@@ -33,7 +33,7 @@ defmodule Timesheet.JobsTest do
       assert {:ok, %Job{} = job} = Jobs.create_job(@valid_attrs)
       assert job.job_code == "some job_code"
       assert job.job_name == "some job_name"
-      assert job.supervisor == 42
+      assert job.supervisor == "some supervisor"
     end
 
     test "create_job/1 with invalid data returns error changeset" do
@@ -45,7 +45,7 @@ defmodule Timesheet.JobsTest do
       assert {:ok, %Job{} = job} = Jobs.update_job(job, @update_attrs)
       assert job.job_code == "some updated job_code"
       assert job.job_name == "some updated job_name"
-      assert job.supervisor == 43
+      assert job.supervisor == "some updated supervisor"
     end
 
     test "update_job/2 with invalid data returns error changeset" do

@@ -4,7 +4,7 @@
 #
 # Inside the script, you can read and write to any of your
 # repositories directly:
-#
+# mix run priv/repo/seeds.exs
 #     Timesheet.Repo.insert!(%Timesheet.SomeSchema{})
 #
 # We recommend using the bang functions (`insert!`, `update!`

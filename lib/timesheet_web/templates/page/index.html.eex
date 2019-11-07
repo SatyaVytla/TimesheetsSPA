@@ -1,23 +1,5 @@
-<div class="row">
-  <div class="col-12">
-    <h1>TimeSheet Logger</h1>
-  </div>
-         <%= form_for @conn, "/user_pages", fn f -> %>
-           <div class="col">
-            <%= if @current_user do %>
-                    <%= if @current_user.ismanager == true do %>
-                    <h3>Select the worker :</h3> <%= select f,:user , @users , class: "form-control"%>
 
-                    <%= submit "View Details", class: "btn btn-success"  %>
-                    <% else %>
-                     <h3>Enter date you wish to log for : </h3> <%= date_select f, :date_selected, default: {2019, 11, 02},class: "form-control" %>
-                      <%= submit "Log your hours", class: "btn btn-success" %>
-                    <% end %>
-
-            <% end %>
-    </div>
-    <% end %>
-
-
+<div id="root">
+  React app loading...
 </div>
 

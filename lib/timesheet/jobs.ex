@@ -101,10 +101,4 @@ defmodule Timesheet.Jobs do
   def change_job(%Job{} = job) do
     Job.changeset(job, %{})
   end
-
-  def get_jobcodes do
-    query = from(j in Job, select: {j.job_code, j.job_code})
-    jobs = Repo.all(query)
-
-  end
 end
