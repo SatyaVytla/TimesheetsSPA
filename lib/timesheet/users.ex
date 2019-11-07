@@ -37,6 +37,14 @@ defmodule Timesheet.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def authenticate_user(user_name, password_hash) do
+    user = Repo.get_by(User, user_name: user_name)
+    case Argon2.check_pass(user, password_hash) do
+      {:ok, user} -> user
+      _else       -> nil
+    end
+  end
+
   @doc """
   Creates a user.
 

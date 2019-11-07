@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, NavLink, Link } from 'react-router-dom';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Col } from 'react-bootstrap';
 import SheetNew from './logsheets/newsheet';
 import { Provider, connect } from 'react-redux';
 import store from './store';
+import Login from './login';
 
 export default function init_page(root) {
     let tree = (
@@ -31,6 +32,9 @@ function Page(props) {
                         </NavLink>
                     </Nav.Item>
                 </Nav>
+                <Col md="4">
+                    <Session />
+                </Col>
             </Navbar>
 
             <Switch>
@@ -41,7 +45,45 @@ function Page(props) {
                 <Route exact path="/users">
                     <SheetNew />
                 </Route>
+                <Route exact path="/login">
+                    <Login />
+                </Route>
             </Switch>
         </Router>
+
     );
 }
+
+let Session = connect(({session}) => ({session}))(({session, dispatch}) => {
+    function logout(ev) {
+        ev.preventDefault();
+        localStorage.removeItem('session');
+        dispatch({
+            type: 'LOG_OUT',
+        });
+    }
+
+    if (session) {
+        return (
+            <Nav>
+                <Nav.Item>
+                    <p className="text-light py-2">User: {session.user_name}</p>
+                </Nav.Item>
+                <Nav.Item>
+                    <a className="nav-link" href="#" onClick={logout}>Logout</a>
+                </Nav.Item>
+            </Nav>
+        );
+    }
+    else {
+        return (
+            <Nav>
+                <Nav.Item>
+                    <NavLink to="/login" exact activeClassName="active" className="nav-link">
+                        Login
+                    </NavLink>
+                </Nav.Item>
+            </Nav>
+        );
+    }
+});

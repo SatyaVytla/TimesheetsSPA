@@ -7,7 +7,6 @@ defmodule TimesheetWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :fetch_session
   end
 
   pipeline :ajax do
@@ -29,8 +28,7 @@ defmodule TimesheetWeb.Router do
     resources "/trackers", TrackerController
     resources "/logsheets", LogsheetController
 
-#    resources "/sessions", SessionController,
-#              only: [:new, :create, :delete], singleton: true
+    resources "/session", SessionController, only: [:create], singleton: true
   end
 
    scope "/", TimesheetWeb do

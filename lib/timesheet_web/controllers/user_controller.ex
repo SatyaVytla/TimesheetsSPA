@@ -4,6 +4,8 @@ defmodule TimesheetWeb.UserController do
   alias Timesheet.Users
   alias Timesheet.Users.User
 
+  plug TimesheetWeb.Plugs.RequireAuth when action in [:create, :update, :delete]
+
   action_fallback TimesheetWeb.FallbackController
 
   def index(conn, _params) do
