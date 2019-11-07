@@ -1,0 +1,16 @@
+<%= form_for @conn, Routes.session_path(@conn, :create), fn f -> %>
+  <div class="form-group">
+    <%= label f, :user_name %>
+    <%= text_input f, :user_name, class: "form-control" %>
+    <%= error_tag f, :user_name %>
+  </div>
+  <div class="form-group">
+     <%= label f, :password_hash %>
+     <%= text_input f, :password_hash, class: "form-control" %>
+     <%= error_tag f, :password_hash %>
+   </div>
+
+  <div>
+    <%= submit "Log In", class: "btn btn-primary" %>
+  </div>
+<% end %>

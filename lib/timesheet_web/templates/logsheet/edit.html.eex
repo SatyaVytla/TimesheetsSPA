@@ -1,0 +1,5 @@
+<h1>Edit Logsheet</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.logsheet_path(@conn, :update, @logsheet)) %>
+
+<span><%= link "Back", to: Routes.logsheet_path(@conn, :index) %></span>
