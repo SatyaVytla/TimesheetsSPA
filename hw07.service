@@ -9,8 +9,8 @@ Restart=on-failure
 Environment=MIX_ENV=prod "PORT=5005"
 Environment=LANG=en_US.UTF-8
 
-WorkingDirectory=/home/timesheetspa/Timesheets
-ExecStart=/bin/bash /home/timesheetspa/Timesheets/start.sh
+WorkingDirectory=/home/timesheetspa/TimesheetsSPA
+ExecStart=/bin/bash /home/timesheetspa/TimesheetsSPA/start.sh
 
 [Install]
 WantedBy=multi-user.target
