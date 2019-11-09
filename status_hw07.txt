@@ -13,11 +13,11 @@ https://github.com/SatyaVytla/TimesheetsSPA
 
 
 3. What's the version number of your github release?
-
+1.0
 
 
 4. What's the URL that you deployed to?
-
+time2.cs5610web.space
 
 
 5. Is your app functionality complete? If not, what's missing?

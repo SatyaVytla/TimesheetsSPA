@@ -217,7 +217,7 @@ Section: Class 24 - Invalid Cursor State
 Section: Class 25 - Invalid Transaction State
 
 25000    E    ERRCODE_INVALID_TRANSACTION_STATE                              invalid_transaction_state
-25001    E    ERRCODE_ACTIVE_SQL_TRANSACTION                                 active_sql_transaction
+25005    E    ERRCODE_ACTIVE_SQL_TRANSACTION                                 active_sql_transaction
 25002    E    ERRCODE_BRANCH_TRANSACTION_ALREADY_ACTIVE                      branch_transaction_already_active
 25008    E    ERRCODE_HELD_CURSOR_REQUIRES_SAME_ISOLATION_LEVEL              held_cursor_requires_same_isolation_level
 25003    E    ERRCODE_INAPPROPRIATE_ACCESS_MODE_FOR_BRANCH_TRANSACTION       inappropriate_access_mode_for_branch_transaction

@@ -2,7 +2,7 @@ use Mix.Config
 
 # Configure your database
 config :timesheet, Timesheet.Repo,
-  username: "timesheet",
+  username: "timesheetspa",
   password: "timesheet",
   database: "timesheet_dev",
   hostname: "localhost",
