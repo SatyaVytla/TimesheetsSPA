@@ -7,7 +7,6 @@ defmodule Timesheet.Repo.Migrations.CreateUsers do
       add :password_hash, :string
       add :user_name, :string
       add :manager_id, :integer
-      add :password, :string
 
       timestamps()
     end

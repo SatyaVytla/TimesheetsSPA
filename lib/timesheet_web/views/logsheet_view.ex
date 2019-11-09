@@ -13,6 +13,8 @@ defmodule TimesheetWeb.LogsheetView do
   def render("logsheet.json", %{logsheet: logsheet}) do
     %{id: logsheet.id,
       date_logged: logsheet.date_logged,
+      job_code: logsheet.job_code,
+      user_id: logsheet.user_id,
       hours: logsheet.hours,
       task_seqno: logsheet.task_seqno,
       approve: logsheet.approve}

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, NavLink, Link } from 'react-router-dom';
 import { Navbar, Nav, Col } from 'react-bootstrap';
 import SheetNew from './logsheets/newsheet';
+import ShowLogs from './logsheets/viewlogs';
 import { Provider, connect } from 'react-redux';
 import store from './store';
 import Login from './login';
@@ -17,6 +18,7 @@ export default function init_page(root) {
 }
 
 function Page(props) {
+
     return (
         <Router>
             <Navbar bg="dark" variant="dark">
@@ -26,27 +28,23 @@ function Page(props) {
                             Home
                         </NavLink>
                     </Nav.Item>
-                    <Nav.Item>
-                        <NavLink to="/users" exact activeClassName="active" className="nav-link">
-                            Users
-                        </NavLink>
-                    </Nav.Item>
                 </Nav>
-                <Col md="4">
                     <Session />
-                </Col>
             </Navbar>
 
             <Switch>
                 <Route exact path="/">
-                    <h1>Home</h1>
+                    <h3>Timesheets Home. Please use actions from navigation</h3>
                 </Route>
 
-                <Route exact path="/users">
+                <Route exact path="/create">
                     <SheetNew />
                 </Route>
                 <Route exact path="/login">
                     <Login />
+                </Route>
+                <Route exact path="/view_Logs">
+                    <ShowLogs />
                 </Route>
             </Switch>
         </Router>
@@ -64,16 +62,47 @@ let Session = connect(({session}) => ({session}))(({session, dispatch}) => {
     }
 
     if (session) {
-        return (
-            <Nav>
-                <Nav.Item>
-                    <p className="text-light py-2">User: {session.user_name}</p>
-                </Nav.Item>
-                <Nav.Item>
-                    <a className="nav-link" href="#" onClick={logout}>Logout</a>
-                </Nav.Item>
-            </Nav>
-        );
+        if(session.manager){
+            return (
+                <Nav>
+
+                    <Nav.Item>
+                        <NavLink to="/view_Logs" exact activeClassName="active" className="nav-link">
+                            View Logs
+                        </NavLink>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <p className="text-light py-2">User: {session.user_name}</p>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <a className="nav-link" href="#" onClick={logout}>Logout</a>
+                    </Nav.Item>
+                </Nav>
+            );
+        }
+        else{
+            return (
+                <Nav>
+
+                    <Nav.Item>
+                        <NavLink to="/view_Logs" exact activeClassName="active" className="nav-link">
+                            View Logs
+                        </NavLink>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <NavLink to="/create" exact activeClassName="active" className="nav-link">
+                            Create Timesheet
+                        </NavLink>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <p className="text-light py-2">User: {session.user_name}</p>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <a className="nav-link" href="#" onClick={logout}>Logout</a>
+                    </Nav.Item>
+                </Nav>
+            );
+        }
     }
     else {
         return (

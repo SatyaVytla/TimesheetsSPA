@@ -21,21 +21,21 @@ defmodule TimesheetWeb.Router do
 
     get "/", PageController, :index
     post "/user_pages", PageController, :user_pages
-    get "/update_task", LogsheetController, :update_task
+    post "/update_task", LogsheetController, :update_task
 
     resources "/users", UserController
     resources "/jobs", JobController, except: [:new, :edit]
     resources "/trackers", TrackerController
-    resources "/logsheets", LogsheetController
-
+    resources "/logsheets", LogsheetController, except: [:new, :edit]
     resources "/session", SessionController, only: [:create], singleton: true
   end
 
    scope "/", TimesheetWeb do
      pipe_through :browser
 
-    get "/", PageController, :index
-    get "/users", PageController, :index
+     get "/", PageController, :index
+     get "/users", PageController, :index
+     get "/*path", PageController, :index
 
   end
 

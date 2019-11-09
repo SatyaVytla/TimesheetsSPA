@@ -23,6 +23,7 @@ defmodule TimesheetWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
+    IO.puts("here")
     user = Users.get_user!(id)
     render(conn, "show.json", user: user)
   end

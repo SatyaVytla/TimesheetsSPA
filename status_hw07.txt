@@ -1,31 +1,31 @@
-﻿
-Web Dev Fall 2019 HW06 Status
+
+Web Dev Fall 2019 HW07 Status
 
 Answer the following questions:
 
 
 1. What's your name?
-   Satya Sudheera Vytla
+Satya Sudheera Vytla
 
 
 2. What's the URL of the github repo with your work for this HW?
-   https://github.com/SatyaVytla/Timesheets
+https://github.com/SatyaVytla/TimesheetsSPA
 
 
 3. What's the version number of your github release?
-   1.0.0
+
 
 
 4. What's the URL that you deployed to?
-   http://time1.cs5610web.space/
+
 
 
 5. Is your app functionality complete? If not, what's missing?
-   One job can take 8 hours at maximum but validation for the sum of all the hours logged is missing. Rest is complete
+It is complete
 
 
 6. Is your app properly deployed? If not, what went wrong?
-   It is deployed correctly.
+Yes, It is deployed
 
 
 
